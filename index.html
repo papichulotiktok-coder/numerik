@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan TIU Numerik - Sofyan Bimbel</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container" id="app-container">
+
+    <!-- ══ SCREEN: LOGIN ══ -->
+    <div id="screen-login">
+        <div class="logo-wrap">
+            <div class="logo-icon">✦</div>
+            <div class="app-title">Latihan TIU Numerik</div>
+            <div class="app-sub">Sofyan Bimbel</div>
+            <div class="app-tagline">Standar Emas · Anti-Duplikasi · Pembahasan Mudah</div>
+        </div>
+
+        <label class="field-label" for="user-name">Nama Lengkap</label>
+        <input type="text" id="user-name" class="input-box" placeholder="Masukkan nama lengkap kamu">
+
+        <label class="field-label" for="access-password">Kode Akses Peserta</label>
+        <input type="password" id="access-password" class="input-box" placeholder="Masukkan kode akses">
+
+        <label class="field-label" for="mode-select">Pilih Fokus Latihan</label>
+        <select id="mode-select" class="input-box">
+            <option value="mix">🏆 Full Simulasi Acak (15 Soal)</option>
+            <option value="hitung">🎯 Fokus Node: Berhitung Campuran</option>
+            <option value="deret">🎯 Fokus Node: Deret Angka</option>
+            <option value="perbandingan">🎯 Fokus Node: Perbandingan Kuantitatif</option>
+            <option value="cerita">🎯 Fokus Node: Soal Cerita Analitik</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="startTest()">Mulai Evaluasi</button>
+        <button class="btn btn-leaderboard" onclick="showLeaderboard()">🏆 Lihat Papan Peringkat</button>
+    </div>
+
+    <!-- ══ SCREEN: QUIZ ══ -->
+    <div id="screen-quiz" class="hidden">
+        <div class="header-status">
+            <div class="timer-row">
+                <div id="timer">15:00</div>
+                <div id="level-chip" class="level-chip level-normal">🟢 Normal</div>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div class="progress-meta">
+                <span id="level-text" style="font-size:11px; font-weight:700; color:var(--warning);">Level: Normal</span>
+                <span id="progress-text" style="font-size:12px; font-weight:600; color:var(--text-muted);">1/15</span>
+            </div>
+        </div>
+
+        <div id="q-category"></div>
+        <div id="q-content" style="margin-top:4px;"></div>
+        <div id="options-container" style="margin-top:14px;"></div>
+
+        <button id="btn-next" class="btn btn-primary" style="margin-top:16px;" onclick="processNext()">Kunci Jawaban</button>
+    </div>
+
+    <!-- ══ SCREEN: RESULT ══ -->
+    <div id="screen-result" class="hidden">
+        <div class="screen-header">
+            <h2>Laporan Analitik</h2>
+            <p id="result-subtitle">Hasil evaluasi kamu hari ini</p>
+        </div>
+
+        <div class="score-wrap">
+            <div class="score-ring-outer">
+                <svg class="score-ring-svg" viewBox="0 0 120 120">
+                    <circle class="score-ring-track" cx="60" cy="60" r="52"/>
+                    <circle class="score-ring-fill" id="score-ring-fill" cx="60" cy="60" r="52"
+                        stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+                </svg>
+                <div class="score-inner">
+                    <div id="final-score">0</div>
+                    <div class="score-label">Skor</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-val" id="stat-benar" style="color:var(--success);">0</div>
+                <div class="stat-desc">Benar</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-salah" style="color:var(--danger);">0</div>
+                <div class="stat-desc">Salah</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="stat-waktu" style="color:var(--warning);">-</div>
+                <div class="stat-desc">Waktu</div>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <button class="btn btn-primary" onclick="location.reload()">Sesi Baru</button>
+            <button class="btn btn-leaderboard" onclick="showLeaderboard()">Peringkat</button>
+        </div>
+
+        <div class="review-section-title">Review Pembahasan — Cara Cepat & Mudah</div>
+        <div id="review-container"></div>
+    </div>
+
+    <!-- ══ SCREEN: LEADERBOARD ══ -->
+    <div id="screen-leaderboard" class="hidden">
+        <div class="screen-header">
+            <h2>🏆 Papan Peringkat</h2>
+            <p>Skor Tertinggi Peserta Sofyan Bimbel</p>
+        </div>
+
+        <div id="leaderboard-list" class="leaderboard-container"></div>
+
+        <button class="btn btn-primary" onclick="hideLeaderboard()">Kembali</button>
+        <button class="btn btn-danger" style="margin-top:12px;" onclick="adminResetLeaderboard()">⚙️ Admin: Reset Data</button>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
